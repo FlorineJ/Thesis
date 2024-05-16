@@ -14,7 +14,7 @@ import pygeos
 from osgeo import ogr,gdal
 from tqdm import tqdm
 #this file is used to overide the gdal one in conda env
-gdal.SetConfigOption("OSM_CONFIG_FILE", os.path.join('..',"osmconf.ini"))
+#gdal.SetConfigOption("OSM_CONFIG_FILE", os.path.join('..',"osmconf.ini"))
 from pygeos import from_wkb
 from shapely.wkb import loads
 
@@ -230,48 +230,3 @@ def fast_retrieve_poly_subs(osm_path, w_list):
     df["new"] = [w_list in n for n in listed]
     return df.reset_index(drop=True)
 
-# ### Delete me please ###
-# def retrieve_shapely(osm_path,geoType,keyCol,**valConstraint):
-#     """
-#     Function to extract specified geometry and keys/values from OpenStreetMap using Shapely
-#     Arguments:
-#         *osm_path* : file path to the .osm.pbf file of the region 
-#         for which we want to do the analysis.     
-#         *geoType* : Type of Geometry to retrieve. e.g. lines, multipolygons, etc.
-#         *keyCol* : These keys will be returned as columns in the dataframe.
-#         ***valConstraint: A dictionary specifiying the value constraints.  
-#         A key can have multiple values (as a list) for more than one constraint for key/value.  
-#     Returns:
-#         *GeoDataFrame* : a geopandas GeoDataFrame with all columns, geometries, and constraints specified.    
-#     """
-#     driver=ogr.GetDriverByName('OSM')
-#     data = driver.Open(osm_path)
-#     query = query_b(geoType,keyCol,**valConstraint)
-#     sql_lyr = data.ExecuteSQL(query)
-#     features =[]
-#     # cl = columns 
-#     cl = ['osm_id'] 
-#     for a in keyCol: cl.append(a)
-#     if data is not None:
-#         print('query is finished, lets start the loop')
-#         for feature in tqdm(sql_lyr):
-#             try:
-#                 if feature.GetField(keyCol[0]) is not None:
-#                     geom = loads(feature.geometry().ExportToWkb()) 
-#                     if geom is None:
-#                         continue
-#                     # field will become a row in the dataframe.
-#                     field = []
-#                     for i in cl: field.append(feature.GetField(i))
-#                     field.append(geom)   
-#                     features.append(field)
-#             except:
-#                 print("WARNING: skipped OSM feature")   
-#     else:
-#         print("ERROR: Nonetype error when requesting SQL. Check required.")    
-#     cl.append('geometry')                   
-#     if len(features) > 0:
-#         return geopandas.GeoDataFrame(features,columns=cl,crs={'init': 'epsg:4326'})
-#     else:
-#         print("WARNING: No features or No Memory. returning empty GeoDataFrame") 
-#         return geopandas.GeoDataFrame(columns=['osm_id','geometry'],crs={'init': 'epsg:4326'})
