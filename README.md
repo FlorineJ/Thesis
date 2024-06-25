@@ -1,6 +1,7 @@
-# Substation detection on NSO imagery
+# Port Land Use detection on Satellite imagery 
+# Based on repository from Joel de Plaen @joel-deplaen-ivm
 
-Pipeline for training data creation, training and inference of a MaskRCNN to detect electyricxal substations in the Netherlands using NSO Superview - 0.5 m resolution
+Pipeline for training data creation, training and inference of a MaskRCNN to detect port land uses in Europe using Google Satellite - 1 m resolution
 
 ## 0. Installation
 
@@ -43,11 +44,7 @@ Pipeline for training data creation, training and inference of a MaskRCNN to det
 ## 1. Data Preperation
 - Aim at the preperation of the imagery and annotation for DL training
 
-### 1.0 prepare_imagery
-- download NSO rasters
-### 1.1 prepare_substation.ipynb
-- Extract and filter OSM data for electrical substations
-### 1.2 tiling_nso.ipynb
+### 1.2 tiling_v02.ipynb
 - Create tiles of satelite imagery and annotation for DL model training
 - Should be added to overide the gdal .ini file in conda env:  
 
@@ -56,7 +53,7 @@ Pipeline for training data creation, training and inference of a MaskRCNN to det
 - Also in *subs_detection/scripts/extract_osm_sub.py*:
 
         gdal.SetConfigOption("OSM_CONFIG_FILE", os.path.join('..',"osmconf.ini"))"
-### 1.3 convert_tif_split_dataset_nso.ipynb
+### 1.3 convert_tif_split_dataset_v02.ipynb
 ### 1.4 create_jsons_nso.ipynb or create_jsons_nso_no-annotations_variation.ipynb
 ## 2 Train Model
 ### 2.1 config_train_evaluate.ipynb
